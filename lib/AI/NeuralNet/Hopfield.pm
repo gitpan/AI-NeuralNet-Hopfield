@@ -13,11 +13,11 @@ AI::NeuralNet::Hopfield - A simple Hopfiled Network Implementation.
 
 =head1 VERSION
 
-Version 0.05
+Version 0.07
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.07';
 
 has 'matrix' => ( is => 'rw', isa => 'Math::SparseMatrix');
 
@@ -39,7 +39,7 @@ sub train() {
 	my @pattern = @_;	
 
 	if ( ($#pattern + 1) != $self->matrix_rows) {
-		die "Can't train a pattern of size" . ($#pattern + 1) . "on a hopfield network of size" , $self->rows;
+		die "Can't train a pattern of size " . ($#pattern + 1) . " on a hopfield network of size " , $self->matrix_rows;
 	}
 	
 	my $m2 = &convert_array($self->matrix_rows, $self->matrix_cols, @pattern);
@@ -93,10 +93,8 @@ sub convert_array() {
 	for (my $i = 0; $i < ($#pattern + 1); $i++) {
 		if ($pattern[$i] =~ m/true/ig) {
 			$result->set(1, ($i +1 ), 1);
-			#say $result->get(1,($i + 1));	
 		} else {
 			$result->set(1, ($i + 1), -1);
-			#say $result->get(1,($i + 1));
 		}
 	}
 	return $result;
@@ -183,10 +181,8 @@ sub subtract() {
 
 	for (my $result_row = 1; $result_row <= $a_rows; $result_row++) {
 		for (my $result_col = 1; $result_col <= $a_cols; $result_col++) {
-			#$result->set($result_row, $result_col, ( $matrix_a->get($result_row, $result_col) ) - ( $matrix_b->get($result_row, $result_col) )); 
 			my $value = ( $matrix_a->get($result_row, $result_col) ) - ( $matrix_b->get($result_row, $result_col));
 			
-			#sparse matrix can not have 0 as values, so we apply an adjustment here and in future calculations.
 			if ($value == 0) {
 				$value += 2;
 			}			
@@ -220,11 +216,7 @@ sub add() {
 
 	for (my $result_row = 1; $result_row <= $a_rows; $result_row++) {
 		for (my $result_col = 1; $result_col <= $a_cols; $result_col++) {
-			my $value = $matrix_b->get($result_row, $result_col);
-#			if ($value == 2) {
-#				$value = 0;
-#			}
-#			
+			my $value = $matrix_b->get($result_row, $result_col);			
 			$result->set($result_row, $result_col, $matrix_a->get($result_row, $result_col) + $value  )
 		}
 	}
@@ -310,14 +302,14 @@ sub print_matrix() {
 
 =head1 SYNOPSIS
 
-This is the early version of a Hopfield Network implemented in Perl. Hopfield networks are sometimes called associative networks since 
+This is a version of a Hopfield Network implemented in Perl. Hopfield networks are sometimes called associative networks since 
 they associate a class pattern to each input pattern, they are tipically used for classification problems with binary pattern vectors.
 
 =head1 SUBROUTINES/METHODS
 
 =head2 New
 
-IN order to build a new calssifiers one must pass to the constructor the number os rows and columns (neurons) for the matrix setup.
+In order to build new calssifiers, you have to pass to the constructor the number of rows and columns (neurons) for the matrix construction.
 
 	my $hop = AI::NeuralNet::Hopfield->(rows => 4, cols => 4);
 
