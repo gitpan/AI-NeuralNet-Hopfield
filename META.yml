@@ -21,4 +21,4 @@ requires:
   Math::SparseMatrix: 0.03
   Moose: 2.0604
   perl: 5.006
-version: 0.09
+version: 0.1

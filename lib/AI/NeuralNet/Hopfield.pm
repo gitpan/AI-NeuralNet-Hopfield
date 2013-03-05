@@ -13,11 +13,11 @@ AI::NeuralNet::Hopfield - A simple Hopfiled Network Implementation.
 
 =head1 VERSION
 
-Version 0.09
+Version 0.1
 
 =cut
 
-our $VERSION = '0.09';
+our $VERSION = '0.1';
 
 has 'matrix' => ( is => 'rw', isa => 'Math::SparseMatrix');
 
@@ -311,7 +311,7 @@ they associate a class pattern to each input pattern, they are tipically used fo
 
 In order to build new calssifiers, you have to pass to the constructor the number of rows and columns (neurons) for the matrix construction.
 
-	my $hop = AI::NeuralNet::Hopfield->(rows => 4, cols => 4);
+	my $hop = AI::NeuralNet::Hopfield->new(row => 4, col => 4);
 
 =cut
 
